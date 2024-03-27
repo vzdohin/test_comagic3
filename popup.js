@@ -112,6 +112,9 @@ function attemptLogin(server, login, password) {
       uri: `sip:${login}@${server}`,
       password: password,
       display_name: login,
+      pcConfig: {
+        iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+      },
     };
     ua = new JsSIP.UA(configuration);
     ua.start();
@@ -161,6 +164,18 @@ function setupSessionHandlers() {
         session.remote_identity.uri.user;
       startCallTimer();
     });
+    session.on("peerconnection", function (e) {
+      console.log("PeerConnection event triggered");
+      const pc = e.peerconnection;
+      pc.ontrack = function (event) {
+        if (event.track.kind === "audio") {
+          const remoteAudio = document.createElement("audio");
+          remoteAudio.autoplay = true;
+          remoteAudio.srcObject = event.streams[0];
+          document.body.appendChild(remoteAudio);
+        }
+      };
+    });
 
     session.on("ended", function () {
       updateCallStatus("Вызов завершен");
@@ -175,10 +190,6 @@ function setupSessionHandlers() {
 
       // Сохранение истории вызовов
       saveCallHistory(callDetails);
-      // showCallHistory();
-      // document.getElementById("call-info").style.display = "none";
-      // document.getElementById("end-call-button").style.display = "none";
-      // currentSession = null; // Очистка текущей сессии
       resetCallUI();
     });
 
@@ -192,13 +203,7 @@ function setupSessionHandlers() {
         endTime: new Date(session._end_time).getTime() || Date.now(),
         status: "Отменен",
       };
-
       saveCallHistory(callDetails);
-      // showCallHistory();
-      // document.getElementById("incoming-call").style.display = "none";
-      // document.getElementById("call-info").style.display = "none";
-      // document.getElementById("end-call-button").style.display = "none";
-      // currentSession = null;
       resetCallUI();
     });
   });
@@ -223,6 +228,17 @@ function makeCall(number) {
         accepted: function (e) {
           document.getElementById("call-details").style.display = "block";
           startCallTimer();
+        },
+        peerconnection: function (e) {
+          const pc = e.peerconnection;
+          pc.ontrack = function (event) {
+            if (event.track.kind === "audio") {
+              const remoteAudio = document.createElement("audio");
+              remoteAudio.autoplay = true;
+              remoteAudio.srcObject = event.streams[0];
+              document.body.appendChild(remoteAudio);
+            }
+          };
         },
       },
     });
@@ -260,7 +276,7 @@ function showCallHistory() {
   chrome.storage.local.get(["login"], function (data) {
     const login = data.login;
     if (!login) {
-      console.error("Ошибка: логин пользователя не найден.");
+      console.log("Ошибка: логин пользователя не найден.");
       document.getElementById("call-history").innerHTML =
         "Пожалуйста, войдите в аккаунт, чтобы увидеть историю звонков.";
       return;
