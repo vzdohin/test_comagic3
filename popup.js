@@ -165,7 +165,6 @@ function setupSessionHandlers() {
       startCallTimer();
     });
     session.on("peerconnection", function (e) {
-      console.log("PeerConnection event triggered");
       const pc = e.peerconnection;
       pc.ontrack = function (event) {
         if (event.track.kind === "audio") {
