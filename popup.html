@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test CoMagic</title>
+    <link rel="stylesheet" type="text/css" href="popup.css" />
+  </head>
+  <body>
+    <h1>SIP Client</h1>
+    <div id="login-form">
+      <input type="text" id="server" placeholder="SIP Сервер" />
+      <input type="text" id="login" placeholder="Логин" />
+      <input type="password" id="password" placeholder="Пароль" />
+      <button id="login-button">Войти</button>
+    </div>
+    <div id="call-status">
+      <p>Статус: <span id="call-status-text">Неактивен</span></p>
+    </div>
+    <div id="call">
+      <input type="text" id="number" placeholder="Позвонить" />
+      <button id="call-button">Позвонить</button>
+    </div>
+    <div id="incoming-call" style="display: none">
+      <p>Входящий звонок от: <span id="incoming-number"></span></p>
+      <button id="answer-button">Принять</button>
+      <button id="decline-button">Отклонить</button>
+    </div>
+
+    <div id="call-info" style="display: none">
+      <div id="call-details" style="display: none">
+        <p>Номер собеседника: <span id="call-number"></span></p>
+        <p>Продолжительность: <span id="call-duration">00:00:00</span></p>
+      </div>
+      <button id="end-call-button">Закончить вызов</button>
+    </div>
+    <button id="toggle-history-button">Показать историю звонков</button>
+    <div id="call-history" style="display: none"></div>
+
+    <button id="logout-button" style="display: none">Выйти из аккаунта</button>
+    <script src="jssip-3.9.4.min.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

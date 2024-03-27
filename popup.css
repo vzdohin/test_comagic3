@@ -1,0 +1,71 @@
+body {
+  width: 300px;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h1 {
+  color: #005792;
+  font-size: 20px;
+  text-align: center;
+}
+
+input,
+button {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #005792;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003d66;
+}
+
+#call-status {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#incoming-call,
+#call-info {
+  background-color: #e3f2fd;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#call-details {
+  margin-top: 10px;
+}
+
+#call-history div {
+  background-color: #fff;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#toggle-history-button,
+#logout-button {
+  width: auto;
+  padding: 5px 10px;
+  margin: 15px auto;
+  display: block;
+}
